@@ -64,36 +64,47 @@ def analysis_date(text):
     return match.group(1) if match else "Source date unavailable"
 
 
+def normalized_label(value):
+    return " ".join(str(value).split()).casefold()
+
+
 def parse_betas(frame):
     for index, row in frame.iterrows():
-        names = [str(cell).strip().lower() for cell in row]
-        if "industry name" in names and "unlevered beta" in names:
-            fields = frame.iloc[index + 1:, [names.index("industry name"), names.index("unlevered beta")]].copy()
-            fields.columns = ["industry", "beta"]
-            fields["beta"] = pd.to_numeric(fields["beta"], errors="coerce")
-            fields = fields.dropna()
-            return dict(zip(fields["industry"].astype(str).str.strip(), fields["beta"]))
-    raise ValueError("Could not identify unlevered beta column")
+        names = [normalized_label(cell) for cell in row]
+        if "industry name" not in names or "unlevered beta" not in names:
+            continue
+        fields = frame.iloc[index + 1:, [names.index("industry name"), names.index("unlevered beta")]].copy()
+        fields.columns = ["industry", "beta"]
+        fields["beta"] = pd.to_numeric(fields["beta"], errors="coerce")
+        values = {}
+        for industry, beta in fields.dropna().itertuples(index=False, name=None):
+            industry = " ".join(str(industry).split())
+            if "software" in industry.casefold() and "system" in industry.casefold() and "application" in industry.casefold():
+                industry = SOFTWARE
+            values[industry] = beta
+        if SOFTWARE in values:
+            return values
+    raise ValueError("Could not find the software industry in the unlevered beta table")
 
 
 def fetch_betas():
     try:
-        frame = pd.read_excel(BytesIO(get(BETA_XLS).content), header=None, engine="xlrd")
-        values = parse_betas(frame)
-        stamp = analysis_date(" ".join(frame.head(8).fillna("").astype(str).to_numpy().ravel()))
-        if SOFTWARE not in values:
-            raise ValueError("Software row missing")
-        return values, stamp, BETA_XLS
-    except Exception:
-        response = get(BETA_HTML)
-        for table in pd.read_html(StringIO(response.text), header=None):
+        sheets = pd.read_excel(BytesIO(get(BETA_XLS).content), sheet_name=None, header=None, engine="xlrd")
+        for frame in sheets.values():
             try:
-                values = parse_betas(pd.concat([pd.DataFrame([list(table.columns)]), pd.DataFrame(table.to_numpy())], ignore_index=True))
-                if SOFTWARE in values:
-                    return values, analysis_date(BeautifulSoup(response.text, "html.parser").get_text(" ", strip=True)), BETA_HTML
+                values = parse_betas(frame)
             except ValueError:
                 continue
-        raise ValueError("Industry beta table unavailable")
+            stamp = analysis_date(" ".join(frame.head(8).fillna("").astype(str).to_numpy().ravel()))
+            return values, stamp, BETA_XLS
+        raise ValueError("Industry beta workbook unavailable")
+    except Exception:
+        html = BeautifulSoup(get(BETA_HTML).text, "html.parser")
+        rows = [
+            [cell.get_text(" ", strip=True) for cell in row.find_all(["th", "td"], recursive=False)]
+            for row in html.select("tr")
+        ]
+        return parse_betas(pd.DataFrame(rows)), analysis_date(html.get_text(" ", strip=True)), BETA_HTML
 
 
 def fetch_spread():
@@ -109,9 +120,9 @@ def fetch_spread():
 
 def fetch_tax(code):
     response = get(OECD_API + f"{code}.A..ST..S13...", params={
-        "startPeriod": str(date.today().year - 8), "format": "csvfile-with-labels",
+        "startPeriod": str(date.today().year - 8),
         "dimensionAtObservation": "AllDimensions",
-    }, headers={"Accept": "text/csv"})
+    }, headers={"Accept": "application/vnd.sdmx.data+csv;version=2;file=true;labels=name"})
     frame = pd.read_csv(StringIO(response.text))
     label_columns = frame.select_dtypes(include=["object", "string"]).columns
     match = pd.Series(False, index=frame.index)
