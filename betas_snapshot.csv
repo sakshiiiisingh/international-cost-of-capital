@@ -1,0 +1,95 @@
+industry,beta
+"Advertising",0.93
+"Aerospace/Defense",0.85
+"Air Transport",0.70
+"Apparel",0.76
+"Auto & Truck",1.27
+"Auto Parts",1.02
+"Bank (Money Center)",0.34
+"Banks (Regional)",0.29
+"Beverage (Alcoholic)",0.61
+"Beverage (Soft)",0.56
+"Broadcasting",0.29
+"Brokerage & Investment Banking",0.58
+"Building Materials",0.93
+"Business & Consumer Services",0.77
+"Cable TV",0.35
+"Chemical (Basic)",0.58
+"Chemical (Diversified)",0.37
+"Chemical (Specialty)",0.79
+"Coal & Related Energy",1.02
+"Computer Services",0.92
+"Computers/Peripherals",1.31
+"Construction Supplies",1.02
+"Diversified",0.79
+"Drugs (Biotechnology)",1.03
+"Drugs (Pharmaceutical)",0.89
+"Education",0.66
+"Electrical Equipment",1.15
+"Electronics (Consumer & Office)",0.83
+"Electronics (General)",0.90
+"Engineering/Construction",1.09
+"Entertainment",0.74
+"Environmental & Waste Services",0.81
+"Farming/Agriculture",0.81
+"Financial Svcs. (Non-bank & Insur ance)",0.32
+"Food Processing",0.46
+"Food Wholesalers",0.64
+"Furn/Home Furnishings",0.62
+"Green & Renewable Energy",0.46
+"Healthcare Products",0.83
+"Healthcare Support Services",0.69
+"Heathcare Information and Techno logy",0.99
+"Homebuilding",0.78
+"Hospitals/Healthcare Facilities",0.55
+"Hotel/Gaming",0.83
+"Household Products",0.72
+"Information Services",0.74
+"Insurance (General)",0.56
+"Insurance (Life)",0.43
+"Insurance (Prop/Cas.)",0.44
+"Investments & Asset Management",0.53
+"Machinery",0.87
+"Metals & Mining",0.96
+"Office Equipment & Services",0.98
+"Oil/Gas (Integrated)",0.27
+"Oil/Gas (Production and Exploratio n)",0.56
+"Oil/Gas Distribution",0.47
+"Oilfield Svcs/Equip.",0.74
+"Packaging & Container",0.72
+"Paper/Forest Products",0.72
+"Power",0.31
+"Precious Metals",0.79
+"Publishing & Newspapers",0.48
+"R.E.I.T.",0.39
+"Real Estate (Development)",0.48
+"Real Estate (General/Diversified)",0.58
+"Real Estate (Operations & Service s)",0.81
+"Recreation",0.70
+"Reinsurance",0.44
+"Restaurant/Dining",0.77
+"Retail (Automotive)",0.70
+"Retail (Building Supply)",1.31
+"Retail (Distributors)",0.78
+"Retail (General)",0.76
+"Retail (Grocery and Food)",0.80
+"Retail (REITs)",0.44
+"Retail (Special Lines)",0.95
+"Rubber& Tires",0.14
+"Semiconductor",1.49
+"Semiconductor Equip",1.35
+"Shipbuilding & Marine",0.64
+"Shoe",0.93
+"Software (Entertainment)",1.01
+"Software (Internet)",1.55
+"Software (System & Application)",1.23
+"Steel",0.90
+"Telecom (Wireless)",0.39
+"Telecom. Equipment",0.86
+"Telecom. Services",0.37
+"Tobacco",0.68
+"Transportation",0.68
+"Transportation (Railroads)",0.81
+"Trucking",0.85
+"Utility (General)",0.15
+"Utility (Water)",0.28
